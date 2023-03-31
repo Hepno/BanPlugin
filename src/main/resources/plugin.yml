@@ -1,0 +1,4 @@
+name: DevroomTrialProject
+version: '${project.version}'
+main: dev.hepno.devroomtrialproject.DevroomTrialProject
+api-version: 1.19
