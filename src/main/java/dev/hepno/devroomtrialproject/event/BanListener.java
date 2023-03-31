@@ -13,7 +13,6 @@ public class BanListener implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
-        System.out.println("Player joined!");
         Player player = event.getPlayer();
         DatabaseManager databaseManager = new DatabaseManager();
 
