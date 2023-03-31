@@ -2,12 +2,8 @@ package dev.hepno.devroomtrialproject.manager;
 
 import dev.hepno.devroomtrialproject.DevroomTrialProject;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.UUID;
-import java.sql.Timestamp;
 
 public class DatabaseManager {
 
@@ -97,12 +93,12 @@ public class DatabaseManager {
         }
     }
 
-// get result set
     public boolean isBanned(UUID uuid) {
         try {
             PreparedStatement ps = connection.prepareStatement("SELECT * FROM `bans` WHERE `uuid` = ?");
             ps.setString(1, uuid.toString());
-            if (ps.getResultSet().next()) return ps.getResultSet().getBoolean("isBanned");
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) return rs.getBoolean("isBanned");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -113,7 +109,8 @@ public class DatabaseManager {
         try {
             PreparedStatement ps = connection.prepareStatement("SELECT * FROM `bans` WHERE `uuid` = ?");
             ps.setString(1, uuid.toString());
-            if (ps.getResultSet().next()) return ps.getResultSet().getString("reason");
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) return rs.getString("reason");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -124,7 +121,8 @@ public class DatabaseManager {
         try {
             PreparedStatement ps = connection.prepareStatement("SELECT * FROM `bans` WHERE `uuid` = ?");
             ps.setString(1, uuid.toString());
-            if (ps.getResultSet().next()) return ps.getResultSet().getString("bannedBy");
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) return rs.getString("bannedBy");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -135,7 +133,8 @@ public class DatabaseManager {
         try {
             PreparedStatement ps = connection.prepareStatement("SELECT * FROM `bans` WHERE `uuid` = ?");
             ps.setString(1, uuid.toString());
-            if (ps.getResultSet().next()) return ps.getResultSet().getTimestamp("bannedAt");
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) return rs.getTimestamp("bannedAt");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -146,7 +145,8 @@ public class DatabaseManager {
         try {
             PreparedStatement ps = connection.prepareStatement("SELECT * FROM `bans` WHERE `uuid` = ?");
             ps.setString(1, uuid.toString());
-            if (ps.getResultSet().next()) return ps.getResultSet().getTimestamp("banExpiresAt");
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) return rs.getTimestamp("banExpiresAt");
         } catch (SQLException e) {
             e.printStackTrace();
         }
