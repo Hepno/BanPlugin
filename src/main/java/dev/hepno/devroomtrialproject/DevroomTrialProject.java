@@ -43,6 +43,6 @@ public final class DevroomTrialProject extends JavaPlugin {
     }
 
     public void registerEvents() {
-        new BanListener();
+        getServer().getPluginManager().registerEvents(new BanListener(), this);
     }
 }
