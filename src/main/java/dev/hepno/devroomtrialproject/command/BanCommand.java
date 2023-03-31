@@ -8,6 +8,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -55,6 +56,13 @@ public class BanCommand extends Command {
         // Ban player
         if (targetPlayer != null) {
             targetPlayer.kickPlayer("You have been banned from the server for " + args[1] + " for " + args[2]);
+            DatabaseManager databaseManager = new DatabaseManager();
+            Timestamp bannedAt = new Timestamp(System.currentTimeMillis());
+            Timestamp banExpiresAt = new Timestamp(System.currentTimeMillis() +
+                    duration[0] * 2629746000L + duration[1] * 604800000L + duration[2] *
+                    86400000L + duration[3] * 3600000L + duration[4] * 60000L + duration[5] * 1000L + duration[6]
+            );
+            databaseManager.createBan(targetPlayer.getUniqueId(), true, args[2], player.getUniqueId(), bannedAt, banExpiresAt);
         }
 
     }

@@ -7,7 +7,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.UUID;
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class DatabaseManager {
 
@@ -53,7 +53,7 @@ public class DatabaseManager {
         }
     }
 
-    public void createBan(UUID uuid, boolean isBanned, String reason, UUID bannedBy, Date bannedAt, Date banExpiresAt) {
+    public void createBan(UUID uuid, boolean isBanned, String reason, UUID bannedBy, Timestamp bannedAt, Timestamp banExpiresAt) {
         try {
             PreparedStatement ps = connection.prepareStatement("INSERT INTO `bans` (`uuid`, `isBanned`, `reason`, `bannedBy`," +
                     " `bannedAt`, `banExpiresAt`)" + " VALUES (?, ?, ?, ?, ?, ?)"
@@ -62,8 +62,8 @@ public class DatabaseManager {
             ps.setBoolean(2, isBanned);
             ps.setString(3, reason);
             ps.setString(4, bannedBy.toString());
-            ps.setDate(5, bannedAt);
-            ps.setDate(6, banExpiresAt);
+            ps.setTimestamp(5, bannedAt);
+            ps.setTimestamp(6, banExpiresAt);
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -131,22 +131,22 @@ public class DatabaseManager {
         return null;
     }
 
-    public Date getBannedAt(UUID uuid) {
+    public Timestamp getBannedAt(UUID uuid) {
         try {
             PreparedStatement ps = connection.prepareStatement("SELECT * FROM `bans` WHERE `uuid` = ?");
             ps.setString(1, uuid.toString());
-            if (ps.getResultSet().next()) return ps.getResultSet().getDate("bannedAt");
+            if (ps.getResultSet().next()) return ps.getResultSet().getTimestamp("bannedAt");
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public Date getBanExpiresAt(UUID uuid) {
+    public Timestamp getBanExpiresAt(UUID uuid) {
         try {
             PreparedStatement ps = connection.prepareStatement("SELECT * FROM `bans` WHERE `uuid` = ?");
             ps.setString(1, uuid.toString());
-            if (ps.getResultSet().next()) return ps.getResultSet().getDate("banExpiresAt");
+            if (ps.getResultSet().next()) return ps.getResultSet().getTimestamp("banExpiresAt");
         } catch (SQLException e) {
             e.printStackTrace();
         }
