@@ -8,6 +8,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class BanCommand extends Command {
 
@@ -20,6 +22,7 @@ public class BanCommand extends Command {
         );
     }
 
+    // todo: override vanilla ban command
     @Override
     public void execute(CommandSender sender, String[] args) {
         if (!(sender instanceof OfflinePlayer)) {
@@ -29,7 +32,6 @@ public class BanCommand extends Command {
         Player player = (Player) sender;
 
         // Ensure command is used correctly
-
         if (args.length == 0) {
             player.sendMessage("You must specify a player to ban!");
             return;
@@ -47,54 +49,10 @@ public class BanCommand extends Command {
 
         OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
         Player targetPlayer = Bukkit.getPlayer(args[0]);
+        int[] duration = convert(args[1]);
 
-        // Get duration
-        // Durations in seconds, minutes, hours, days, weeks, and months. Format: 1s, 1m, 1h, 1d, 1w, 1mo, and they should be able to be combined. For example, 1h30m would be 1 hour and 30 minutes.
-
-        int durationSeconds = 0;
-        int durationMinutes = 0;
-        int durationHours = 0;
-        int durationDays = 0;
-        int durationWeeks = 0;
-        int durationMonths = 0;
-
-        if (args[1].contains("s")) {
-            String[] duration = args[1].split("s");
-            durationSeconds = Integer.parseInt(duration[0]);
-        }
-        if (args[1].contains("m")) {
-            String[] duration = args[1].split("m");
-            durationMinutes = Integer.parseInt(duration[0]);
-        }
-        if (args[1].contains("h")) {
-            String[] duration = args[1].split("h");
-            durationHours = Integer.parseInt(duration[0]);
-        }
-        if (args[1].contains("d")) {
-            String[] duration = args[1].split("d");
-            durationDays = Integer.parseInt(duration[0]);
-        }
-        if (args[1].contains("w")) {
-            String[] duration = args[1].split("w");
-            durationWeeks = Integer.parseInt(duration[0]);
-        }
-        if (args[1].contains("mo")) {
-            String[] duration = args[1].split("mo");
-            durationMonths = Integer.parseInt(duration[0]);
-        }
-
-        if (durationSeconds == 0 && durationMinutes == 0 && durationHours == 0 && durationDays == 0 && durationWeeks == 0 && durationMonths == 0) {
-            player.sendMessage("You must specify a valid duration for the ban!");
-            return;
-        }
-
-        // Debug
-        System.out.println(durationSeconds);
-        System.out.println(durationMinutes);
-        System.out.println(durationHours);
-        System.out.println(durationDays);
-        System.out.println(durationWeeks);
-        System.out.println(durationMonths);
+        // DEBUG
+        System.out.println("Duration: " + duration[0] + " months, " + duration[1] + " weeks, " + duration[2] + " days, " + duration[3] + " hours, " + duration[4] + " minutes, " + duration[5] + " seconds, " + duration[6] + " milliseconds");
 
 
         // Ban player
@@ -102,6 +60,46 @@ public class BanCommand extends Command {
             targetPlayer.kickPlayer("You have been banned from the server for " + args[1] + " for " + args[2]);
         }
 
+    }
+
+    // Converter to convert duration string into six integers
+    public int[] convert(String text) throws IllegalArgumentException {
+        if (!text.replaceAll("(\\d+)\\s*(mo|h|m|s|w|d|ms)", "").equals(""))
+            throw new IllegalArgumentException("Invalid time format");
+
+        int[] duration = new int[7];
+
+        Pattern pattern = Pattern.compile("(\\d+)\\s*(mo|h|m|s|w|d|ms)");
+        Matcher matcher = pattern.matcher(text);
+
+        while (matcher.find()) {
+            int amount = Integer.parseInt(matcher.group(1));
+            String unit = matcher.group(2);
+            switch (unit) {
+                case "mo":
+                    duration[0] += amount;
+                    break;
+                case "w":
+                    duration[1] += amount;
+                    break;
+                case "d":
+                    duration[2] += amount;
+                    break;
+                case "h":
+                    duration[3] += amount;
+                    break;
+                case "m":
+                    duration[4] += amount;
+                    break;
+                case "s":
+                    duration[5] += amount;
+                    break;
+                case "ms":
+                    duration[6] += amount;
+                    break;
+            }
+        }
+        return duration;
     }
 
     @Override

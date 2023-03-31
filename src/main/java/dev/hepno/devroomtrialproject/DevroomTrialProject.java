@@ -8,7 +8,7 @@ public final class DevroomTrialProject extends JavaPlugin {
     @Override
     public void onEnable() {
         // Plugin startup logic
-
+        registerCommands();
     }
 
     @Override
