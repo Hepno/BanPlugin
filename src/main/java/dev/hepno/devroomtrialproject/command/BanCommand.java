@@ -1,6 +1,7 @@
 package dev.hepno.devroomtrialproject.command;
 
 import dev.hepno.devroomtrialproject.manager.Command;
+import dev.hepno.devroomtrialproject.manager.DatabaseManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -50,10 +51,6 @@ public class BanCommand extends Command {
         OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
         Player targetPlayer = Bukkit.getPlayer(args[0]);
         int[] duration = convert(args[1]);
-
-        // DEBUG
-        System.out.println("Duration: " + duration[0] + " months, " + duration[1] + " weeks, " + duration[2] + " days, " + duration[3] + " hours, " + duration[4] + " minutes, " + duration[5] + " seconds, " + duration[6] + " milliseconds");
-
 
         // Ban player
         if (targetPlayer != null) {
