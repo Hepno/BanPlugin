@@ -14,4 +14,8 @@ public final class DevroomTrialProject extends JavaPlugin {
     public void onDisable() {
         // Plugin shutdown logic
     }
+
+    public static DevroomTrialProject getInstance() {
+        return getPlugin(DevroomTrialProject.class);
+    }
 }
