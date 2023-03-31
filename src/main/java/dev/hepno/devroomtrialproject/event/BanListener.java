@@ -26,7 +26,7 @@ public class BanListener implements Listener {
             Timestamp bannedAt = databaseManager.getBannedAt(player.getUniqueId());
             Timestamp expiresAt = databaseManager.getBanExpiresAt(player.getUniqueId());
 
-            if (bannedAt.after(expiresAt)) {
+            if (bannedAt.after(expiresAt) || bannedAt.equals(expiresAt)) {
                 databaseManager.deleteBan(player.getUniqueId());
             } else {
                 player.kickPlayer("You are banned from the server!");
