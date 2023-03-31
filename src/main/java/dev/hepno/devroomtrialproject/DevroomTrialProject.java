@@ -11,8 +11,13 @@ public final class DevroomTrialProject extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        // Register methods
         registerCommands();
         registerEvents();
+
+        // Setup config
+        saveDefaultConfig();
+        getConfig().options().copyDefaults(true);
 
         // Setup database
         DatabaseManager databaseManager = new DatabaseManager();
