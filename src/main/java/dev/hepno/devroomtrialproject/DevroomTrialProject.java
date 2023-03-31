@@ -1,14 +1,27 @@
 package dev.hepno.devroomtrialproject;
 
 import dev.hepno.devroomtrialproject.command.BanCommand;
+import dev.hepno.devroomtrialproject.event.BanListener;
+import dev.hepno.devroomtrialproject.manager.DatabaseManager;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.sql.SQLException;
 
 public final class DevroomTrialProject extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        // Plugin startup logic
         registerCommands();
+        registerEvents();
+
+        // Setup database
+        DatabaseManager databaseManager = new DatabaseManager();
+        try {
+            databaseManager.connect();
+            databaseManager.createTable();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -22,5 +35,9 @@ public final class DevroomTrialProject extends JavaPlugin {
 
     public void registerCommands() {
         new BanCommand("ban", "ban.use", new String[]{}, "Command to ban a player from the server");
+    }
+
+    public void registerEvents() {
+        new BanListener();
     }
 }

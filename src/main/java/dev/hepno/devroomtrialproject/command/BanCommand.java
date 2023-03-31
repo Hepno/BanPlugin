@@ -33,6 +33,14 @@ public class BanCommand extends Command {
         }
         Player player = (Player) sender;
 
+        // Connect to database
+        DatabaseManager databaseManager = new DatabaseManager();
+        try {
+            databaseManager.connect();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
         // Ensure command is used correctly
         if (args.length == 0) {
             player.sendMessage("You must specify a player to ban!");
@@ -56,7 +64,6 @@ public class BanCommand extends Command {
         // Ban player
         if (targetPlayer != null) {
             targetPlayer.kickPlayer("You have been banned from the server for " + args[1] + " for " + args[2]);
-            DatabaseManager databaseManager = new DatabaseManager();
             Timestamp bannedAt = new Timestamp(System.currentTimeMillis());
             Timestamp banExpiresAt = new Timestamp(System.currentTimeMillis() +
                     duration[0] * 2629746000L + duration[1] * 604800000L + duration[2] *

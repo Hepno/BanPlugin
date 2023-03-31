@@ -6,16 +6,21 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
+import java.sql.SQLException;
 import java.sql.Timestamp;
 
 public class BanListener implements Listener {
-
-
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         DatabaseManager databaseManager = new DatabaseManager();
+
+        try {
+            databaseManager.connect();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
         if (databaseManager.isBanned(player.getUniqueId())) {
             Timestamp bannedAt = databaseManager.getBannedAt(player.getUniqueId());
