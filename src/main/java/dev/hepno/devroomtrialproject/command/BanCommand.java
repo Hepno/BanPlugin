@@ -54,6 +54,18 @@ public class BanCommand extends Command {
         }
 
         if (args.length == 2) {
+            // Check if args[1] is a valid duration, if not, assume it's the reason
+            try {
+                convert(args[1]);
+            } catch (IllegalArgumentException e) {
+                // We assume args[1] is the reason, so we can ban the player permanently
+                Player targetPlayer = Bukkit.getPlayer(args[0]);
+                Timestamp bannedAt = new Timestamp(System.currentTimeMillis());
+                Timestamp banExpiresAt = new Timestamp(System.currentTimeMillis() + (2629746000L * 10000)); // it's a bit messy, but it works
+                databaseManager.createBan(targetPlayer.getUniqueId(), true, args[1], player.getUniqueId(), bannedAt, banExpiresAt);
+                targetPlayer.kickPlayer("You have been permanently banned from the server for " + args[1]);
+                return;
+            }
             player.sendMessage("You must specify a reason for the ban!");
             return;
         }
