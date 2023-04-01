@@ -60,7 +60,7 @@ public class BanCommand extends Command {
 
         OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
         Player targetPlayer = Bukkit.getPlayer(args[0]);
-        int duration[];
+        int[] duration;
         try {
             duration = convert(args[1]);
         } catch (IllegalArgumentException e) {
