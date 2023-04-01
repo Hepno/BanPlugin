@@ -1,6 +1,7 @@
 package dev.hepno.devroomtrialproject;
 
 import dev.hepno.devroomtrialproject.command.BanCommand;
+import dev.hepno.devroomtrialproject.command.UnbanCommand;
 import dev.hepno.devroomtrialproject.event.BanListener;
 import dev.hepno.devroomtrialproject.manager.DatabaseManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -40,7 +41,8 @@ public final class DevroomTrialProject extends JavaPlugin {
     public static DevroomTrialProject getInstance() { return instance; }
 
     public void registerCommands() {
-        new BanCommand("ban", "ban.use", new String[]{}, "Command to ban a player from the server");
+        new BanCommand("ban", "ban.use", new String[]{"tempban"}, "Command to ban a player from the server");
+        new UnbanCommand("unban", "unban.use", new String[]{}, "Command to unban a player from the server");
     }
 
     public void registerEvents() {
