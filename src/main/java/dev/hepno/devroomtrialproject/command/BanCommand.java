@@ -58,7 +58,6 @@ public class BanCommand extends Command {
             return;
         }
 
-        OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
         Player targetPlayer = Bukkit.getPlayer(args[0]);
         int[] duration;
         try {
