@@ -9,11 +9,14 @@ import java.sql.SQLException;
 
 public final class DevroomTrialProject extends JavaPlugin {
 
+    private static DevroomTrialProject instance;
+
     @Override
     public void onEnable() {
         // Register methods
         registerCommands();
         registerEvents();
+        instance = this;
 
         // Setup config
         saveDefaultConfig();
@@ -34,9 +37,7 @@ public final class DevroomTrialProject extends JavaPlugin {
         // Plugin shutdown logic
     }
 
-    public static DevroomTrialProject getInstance() {
-        return getPlugin(DevroomTrialProject.class);
-    }
+    public static DevroomTrialProject getInstance() { return instance; }
 
     public void registerCommands() {
         new BanCommand("ban", "ban.use", new String[]{}, "Command to ban a player from the server");
