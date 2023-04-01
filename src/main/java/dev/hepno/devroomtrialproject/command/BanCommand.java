@@ -27,6 +27,7 @@ public class BanCommand extends Command {
     // todo: override vanilla ban command
     @Override
     public void execute(CommandSender sender, String[] args) {
+
         if (!(sender instanceof OfflinePlayer)) {
             sender.sendMessage("You must be a player to use this command!");
             return;
@@ -35,6 +36,7 @@ public class BanCommand extends Command {
 
         // Connect to database
         DatabaseManager databaseManager = new DatabaseManager();
+
         try {
             databaseManager.connect();
         } catch (Exception e) {
