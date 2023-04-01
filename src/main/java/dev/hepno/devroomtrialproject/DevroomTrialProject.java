@@ -33,6 +33,7 @@ public final class DevroomTrialProject extends JavaPlugin {
         try {
             databaseManager.connect();
             databaseManager.createTable();
+            databaseManager.createHistoryTable();
         } catch (SQLException e) {
             e.printStackTrace();
         }

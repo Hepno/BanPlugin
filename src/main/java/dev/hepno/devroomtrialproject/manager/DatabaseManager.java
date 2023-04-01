@@ -49,8 +49,21 @@ public class DatabaseManager {
         }
     }
 
-    public void createBan(UUID uuid, boolean isBanned, String reason, UUID bannedBy, Timestamp bannedAt, Timestamp banExpiresAt) {
+    public void createHistoryTable() {
         try {
+            PreparedStatement ps = connection.prepareStatement("CREATE TABLE IF NOT EXISTS `ban_history` (`banId` INT NOT NULL AUTO_INCREMENT," +
+                    "`uuid` VARCHAR(36) NOT NULL, `notes` VARCHAR(255) NOT NULL, `reason` VARCHAR(255) NOT NULL, `bannedBy` VARCHAR(36) NOT NULL," +
+                    " `bannedAt` DATETIME NOT NULL, `banExpiresAt` DATETIME NOT NULL, PRIMARY KEY (`banId`))"
+            );
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void createBan(UUID uuid, boolean isBanned, String reason, UUID bannedBy, Timestamp bannedAt, Timestamp banExpiresAt, String notes) {
+        try {
+            // Create ban
             PreparedStatement ps = connection.prepareStatement("INSERT INTO `bans` (`uuid`, `isBanned`, `reason`, `bannedBy`," +
                     " `bannedAt`, `banExpiresAt`)" + " VALUES (?, ?, ?, ?, ?, ?)"
             );
@@ -61,6 +74,18 @@ public class DatabaseManager {
             ps.setTimestamp(5, bannedAt);
             ps.setTimestamp(6, banExpiresAt);
             ps.executeUpdate();
+
+            // Create ban history
+            PreparedStatement ps2 = connection.prepareStatement("INSERT INTO `ban_history` (`uuid`, `notes`, `reason`, `bannedBy`," +
+                    " `bannedAt`, `banExpiresAt`)" + " VALUES (?, ?, ?, ?, ?, ?)"
+            );
+            ps2.setString(1, uuid.toString());
+            ps2.setString(2, notes);
+            ps2.setString(3, reason);
+            ps2.setString(4, bannedBy.toString());
+            ps2.setTimestamp(5, bannedAt);
+            ps2.setTimestamp(6, banExpiresAt);
+            ps2.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -147,6 +172,34 @@ public class DatabaseManager {
             ps.setString(1, uuid.toString());
             ResultSet rs = ps.executeQuery();
             if (rs.next()) return rs.getTimestamp("banExpiresAt");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public String[][] getBanHistory(UUID uuid) {
+        try {
+
+            // for loop to get all bans (all fields) that match the users UUID. To be used for /banhistory command to show all bans that match the users UUID
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM `ban_history` WHERE `uuid` = ?");
+            ps.setString(1, uuid.toString());
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                String[][] banHistory = new String[rs.getFetchSize()][5];
+                for (int i = 0; i < rs.getFetchSize(); i++) {
+                    String[] ban = new String[5];
+                    ban[0] = rs.getString("notes");
+                    ban[1] = rs.getString("reason");
+                    ban[2] = rs.getString("bannedBy");
+                    ban[3] = rs.getString("bannedAt");
+                    ban[4] = rs.getString("banExpiresAt");
+                    banHistory[i] = ban;
+                }
+                return banHistory;
+            }
+            return null;
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

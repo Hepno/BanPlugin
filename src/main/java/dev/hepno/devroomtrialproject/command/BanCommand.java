@@ -62,7 +62,7 @@ public class BanCommand extends Command {
                 Player targetPlayer = Bukkit.getPlayer(args[0]);
                 Timestamp bannedAt = new Timestamp(System.currentTimeMillis());
                 Timestamp banExpiresAt = new Timestamp(System.currentTimeMillis() + (2629746000L * 10000)); // it's a bit messy, but it works
-                databaseManager.createBan(targetPlayer.getUniqueId(), true, args[1], player.getUniqueId(), bannedAt, banExpiresAt);
+                databaseManager.createBan(targetPlayer.getUniqueId(), true, args[1], player.getUniqueId(), bannedAt, banExpiresAt, "PERMANENT");
                 targetPlayer.kickPlayer("You have been permanently banned from the server for " + args[1]);
                 return;
             }
@@ -87,7 +87,7 @@ public class BanCommand extends Command {
                     duration[0] * 2629746000L + duration[1] * 604800000L + duration[2] *
                     86400000L + duration[3] * 3600000L + duration[4] * 60000L + duration[5] * 1000L + duration[6]
             );
-            databaseManager.createBan(targetPlayer.getUniqueId(), true, args[2], player.getUniqueId(), bannedAt, banExpiresAt);
+            databaseManager.createBan(targetPlayer.getUniqueId(), true, args[2], player.getUniqueId(), bannedAt, banExpiresAt, "NONE");
         }
 
     }
