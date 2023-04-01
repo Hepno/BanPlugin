@@ -60,7 +60,13 @@ public class BanCommand extends Command {
 
         OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
         Player targetPlayer = Bukkit.getPlayer(args[0]);
-        int[] duration = convert(args[1]);
+        int duration[];
+        try {
+            duration = convert(args[1]);
+        } catch (IllegalArgumentException e) {
+            player.sendMessage(ChatColor.RED + "Invalid time format!");
+            return;
+        }
 
         // Ban player
         if (targetPlayer != null) {
