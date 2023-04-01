@@ -31,7 +31,7 @@ public class BanListener implements Listener {
             String message = "";
 
             // Check if the ban is permanent (9000+ months)
-            if (!(expiresAt.getTime() < System.currentTimeMillis() + (2629746000L * 9000))) {
+            if (expiresAt.getTime() < System.currentTimeMillis() + (2629746000L * 9000)) {
 
                 // Get the units needed to create the message
                 Duration difference = Duration.between(now.toLocalDateTime(), expiresAt.toLocalDateTime());
@@ -78,10 +78,7 @@ public class BanListener implements Listener {
                 message = "You are permanently banned.";
             }
 
-            if (expiresAt == null) {
-                event.setLoginResult(AsyncPlayerPreLoginEvent.Result.KICK_BANNED);
-                event.setKickMessage("1");
-            } else if (expiresAt.after(new Timestamp(System.currentTimeMillis()))) {
+            if (expiresAt.after(new Timestamp(System.currentTimeMillis()))) {
                 event.setLoginResult(AsyncPlayerPreLoginEvent.Result.KICK_BANNED);
                 event.setKickMessage(ChatColor.RED + "You have been banned from this server for " +
                 databaseManager.getReason(uuid) + ". " + message
