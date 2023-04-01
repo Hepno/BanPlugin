@@ -12,6 +12,11 @@ public final class DevroomTrialProject extends JavaPlugin {
 
     private static DevroomTrialProject instance;
 
+    //todo 1: Create new database for ban history. Same as the current one, but with a new table that uses ban_id as a primary key
+    //todo 2: Create the Ban History GUI. It should list all info from the ban history table.
+    //todo 3: Create a command to view the ban history of a player. It should open the Ban History GUI (for that player)
+    //todo 4: Add a page system to the Ban History GUI. It should have a max of 45 entries per page, with no limit on the amount of pages.
+
     @Override
     public void onEnable() {
         // Register methods
