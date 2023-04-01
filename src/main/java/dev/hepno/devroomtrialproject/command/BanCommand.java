@@ -24,11 +24,10 @@ public class BanCommand extends Command {
         );
     }
 
-    // todo: override vanilla ban command
     @Override
     public void execute(CommandSender sender, String[] args) {
 
-        if (!(sender instanceof OfflinePlayer)) {
+        if (!(sender instanceof Player)) {
             sender.sendMessage("You must be a player to use this command!");
             return;
         }
