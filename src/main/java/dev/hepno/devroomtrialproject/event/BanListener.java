@@ -71,13 +71,6 @@ public class BanListener implements Listener {
                 message += seconds + " seconds, ";
             }
 
-
-            System.out.println(bannedAt);
-            System.out.println(expiresAt);
-            System.out.println(expiresAt);
-            System.out.println(difference);
-            System.out.println(message);
-
             if (expiresAt == null) {
                 event.setLoginResult(AsyncPlayerPreLoginEvent.Result.KICK_BANNED);
                 event.setKickMessage("1");
