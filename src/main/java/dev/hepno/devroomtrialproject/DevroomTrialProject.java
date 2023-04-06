@@ -49,7 +49,7 @@ public final class DevroomTrialProject extends JavaPlugin {
     public static DevroomTrialProject getInstance() { return instance; }
 
     public void registerCommands() {
-        new BanCommand("ban", "ban.use", new String[]{"tempban"}, "Command to ban a player from the server");
+        new BanCommand("ban", "ban.use", new String[]{"tempban"}, "Command to ban a player from the server", this);
         new UnbanCommand("unban", "unban.use", new String[]{}, "Command to unban a player from the server");
         new BanHistory("banhistory", "banhistory.use", new String[]{}, "Command to view the ban history of a player", this);
     }

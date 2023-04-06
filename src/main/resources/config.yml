@@ -11,3 +11,8 @@ gui:
   bannedAt: "&7Banned at: &f"
   banExpiresAt: "&7Ban Expires At: &f"
   prematurelyBannedMessage: "&7Note: &fThis ban was prematurely lifted by the admins"
+errorMessages:
+  mustBePlayer: "You must be a player to execute this command!"
+  noPlayerSpecified: "You must specify a player to ban!"
+  noDurationGiven: "You must specify a duration for the ban!"
+  noReasonGiven: "You must specify a reason for the ban!"

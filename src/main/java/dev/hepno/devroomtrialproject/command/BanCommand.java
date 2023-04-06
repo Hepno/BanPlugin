@@ -1,5 +1,6 @@
 package dev.hepno.devroomtrialproject.command;
 
+import dev.hepno.devroomtrialproject.DevroomTrialProject;
 import dev.hepno.devroomtrialproject.manager.Command;
 import dev.hepno.devroomtrialproject.manager.DatabaseManager;
 import org.bukkit.Bukkit;
@@ -15,20 +16,23 @@ import java.util.regex.Pattern;
 
 public class BanCommand extends Command {
 
-    public BanCommand(String command, String permission, String[] aliases, String description) {
+    private DevroomTrialProject plugin;
+
+    public BanCommand(String command, String permission, String[] aliases, String description, DevroomTrialProject plugin) {
         super(
                 command,
                 permission,
                 aliases,
                 description
         );
+        this.plugin = plugin;
     }
 
     @Override
     public void execute(CommandSender sender, String[] args) {
 
         if (!(sender instanceof Player)) {
-            sender.sendMessage("You must be a player to use this command!");
+            sender.sendMessage(plugin.getConfig().getString("errorMessages.mustBePlayer"));
             return;
         }
         Player player = (Player) sender;
@@ -44,12 +48,12 @@ public class BanCommand extends Command {
 
         // Ensure command is used correctly
         if (args.length == 0) {
-            player.sendMessage("You must specify a player to ban!");
+            player.sendMessage(plugin.getConfig().getString("errorMessages.noPlayerSpecified"));
             return;
         }
 
         if (args.length == 1) {
-            player.sendMessage("You must specify a duration for the ban!");
+            player.sendMessage(plugin.getConfig().getString("errorMessages.noDurationGiven"));
             return;
         }
 
