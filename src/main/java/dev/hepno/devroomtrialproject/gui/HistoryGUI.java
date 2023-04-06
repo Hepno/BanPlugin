@@ -1,5 +1,6 @@
 package dev.hepno.devroomtrialproject.gui;
 
+import dev.hepno.devroomtrialproject.DevroomTrialProject;
 import dev.hepno.devroomtrialproject.manager.DatabaseManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -14,7 +15,7 @@ import java.util.List;
 
 public class HistoryGUI {
 
-    public HistoryGUI(Player player, int page) {
+    public HistoryGUI(Player player, int page, DevroomTrialProject plugin) {
         Inventory gui = Bukkit.createInventory(null, 54, "Ban History of " + player.getName() + " - Page " + page);
         DatabaseManager databaseManager = new DatabaseManager();
         List<ItemStack> items = new ArrayList<>();
@@ -33,14 +34,14 @@ public class HistoryGUI {
             ItemStack is = new ItemStack(Material.RED_WOOL, 1);
             ItemMeta isMeta = is.getItemMeta();
             List lore = new ArrayList<>();
-            lore.add(ChatColor.translateAlternateColorCodes('&', "&7Reason: &f" + ban[1]));
-            lore.add(ChatColor.translateAlternateColorCodes('&', "&7Banned By: &f" + ban[2]));
-            lore.add(ChatColor.translateAlternateColorCodes('&', "&7Banned At: &f" + ban[3]));
-            lore.add(ChatColor.translateAlternateColorCodes('&', "&7Ban Expires at: &f" + ban[4]));
+            lore.add(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("gui.reason") + ban[1]));
+            lore.add(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("gui.bannedBy") + ban[2]));
+            lore.add(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("gui.bannedAt") + ban[3]));
+            lore.add(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("gui.banExpiresAt") + ban[4]));
             System.out.println(ban[0]);
 
             if (ban[0].equalsIgnoreCase("UNBANNED")) {
-                lore.add(ChatColor.translateAlternateColorCodes('&', "&7Note: This ban was lifted prematurely by admins"));
+                lore.add(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("gui.prematurelyBannedMessage")));
                 is.setType(Material.GREEN_WOOL);
             }
 

@@ -51,12 +51,12 @@ public final class DevroomTrialProject extends JavaPlugin {
     public void registerCommands() {
         new BanCommand("ban", "ban.use", new String[]{"tempban"}, "Command to ban a player from the server");
         new UnbanCommand("unban", "unban.use", new String[]{}, "Command to unban a player from the server");
-        new BanHistory("banhistory", "banhistory.use", new String[]{}, "Command to view the ban history of a player");
+        new BanHistory("banhistory", "banhistory.use", new String[]{}, "Command to view the ban history of a player", this);
     }
 
     public void registerEvents() {
         getServer().getPluginManager().registerEvents(new BanListener(), this);
-        getServer().getPluginManager().registerEvents(new GUIListener(), this);
+        getServer().getPluginManager().registerEvents(new GUIListener(this), this);
     }
 
 }

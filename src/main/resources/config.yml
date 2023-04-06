@@ -4,3 +4,10 @@ mysql:
   database: "database"
   username: "username"
   password: "password"
+gui:
+  # Text to be displayed before the variable. No placeholders necessary
+  reason: "&7Reason: "
+  bannedBy: "&7Banned by:"
+  bannedAt: "&7Banned at:"
+  banExpiresAt: "&7Ban Expires At: "
+  prematurelyBannedMessage: "&7Note: This ban was prematurely lifted by the admins"

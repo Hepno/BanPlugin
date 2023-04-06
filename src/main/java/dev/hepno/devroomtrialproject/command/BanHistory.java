@@ -1,5 +1,6 @@
 package dev.hepno.devroomtrialproject.command;
 
+import dev.hepno.devroomtrialproject.DevroomTrialProject;
 import dev.hepno.devroomtrialproject.gui.HistoryGUI;
 import dev.hepno.devroomtrialproject.manager.Command;
 import dev.hepno.devroomtrialproject.manager.DatabaseManager;
@@ -13,13 +14,16 @@ import java.util.List;
 
 public class BanHistory extends Command {
 
-        public BanHistory(String command, String permission, String[] aliases, String description) {
+    private final DevroomTrialProject plugin;
+
+        public BanHistory(String command, String permission, String[] aliases, String description, DevroomTrialProject plugin) {
             super(
                     command,
                     permission,
                     aliases,
                     description
             );
+            this.plugin = plugin;
         }
 
         @Override
@@ -46,7 +50,7 @@ public class BanHistory extends Command {
 
             OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
             // Open ban GUI here
-            new HistoryGUI((Player) sender, 1);
+            new HistoryGUI((Player) sender, 1, plugin);
 
         }
 
