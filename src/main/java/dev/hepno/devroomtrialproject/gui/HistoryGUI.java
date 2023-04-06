@@ -81,34 +81,6 @@ public class HistoryGUI {
         }
 
         player.openInventory(gui);
-
-
-
-
-
-
-
-
-
-        /*
-        // Make edges of GUI be black stained-glass panes (aside from 48 and 50 as they are used for previous and next page)
-        int[] edges = new int[] {
-                0, 1, 2, 3, 4, 5, 6, 7, 8,
-                9, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 49, 51, 52, 53
-        };
-        for (int edge : edges) {
-            ItemStack item = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
-            items.add(edge, item);
-        }
-
-        // Loop through all bans and add them to the items list
-        for (int i = 0; i < databaseManager.getBanHistory(player.getUniqueId()).length; i++) {
-            // Create the item to use
-            ItemStack item = new ItemStack(Material.RED_WOOL);
-            items.add(item);
-        }
-         */
-
     }
 
 }
