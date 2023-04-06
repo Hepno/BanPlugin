@@ -1,10 +1,13 @@
 package dev.hepno.devroomtrialproject.command;
 
+import dev.hepno.devroomtrialproject.gui.HistoryGUI;
 import dev.hepno.devroomtrialproject.manager.Command;
 import dev.hepno.devroomtrialproject.manager.DatabaseManager;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 
 import java.util.List;
 
@@ -43,7 +46,7 @@ public class BanHistory extends Command {
 
             OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
             // Open ban GUI here
-
+            new HistoryGUI((Player) sender, 1);
 
         }
 

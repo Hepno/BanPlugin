@@ -4,6 +4,7 @@ import dev.hepno.devroomtrialproject.command.BanCommand;
 import dev.hepno.devroomtrialproject.command.BanHistory;
 import dev.hepno.devroomtrialproject.command.UnbanCommand;
 import dev.hepno.devroomtrialproject.event.BanListener;
+import dev.hepno.devroomtrialproject.event.GUIListener;
 import dev.hepno.devroomtrialproject.manager.DatabaseManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -13,9 +14,9 @@ public final class DevroomTrialProject extends JavaPlugin {
 
     private static DevroomTrialProject instance;
 
-    //todo 1: Create new database for ban history. Same as the current one, but with a new table that uses ban_id as a primary key
+    //DONE: Create new database for ban history. Same as the current one, but with a new table that uses ban_id as a primary key
     //todo 2: Create the Ban History GUI. It should list all info from the ban history table.
-    //todo 3: Create a command to view the ban history of a player. It should open the Ban History GUI (for that player)
+    //DONE: Create a command to view the ban history of a player. It should open the Ban History GUI (for that player)
     //todo 4: Add a page system to the Ban History GUI. It should have a max of 45 entries per page, with no limit on the amount of pages.
 
     @Override
@@ -55,5 +56,7 @@ public final class DevroomTrialProject extends JavaPlugin {
 
     public void registerEvents() {
         getServer().getPluginManager().registerEvents(new BanListener(), this);
+        getServer().getPluginManager().registerEvents(new GUIListener(), this);
     }
+
 }
