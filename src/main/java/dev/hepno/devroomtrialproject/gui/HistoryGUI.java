@@ -26,9 +26,32 @@ public class HistoryGUI {
             throw new RuntimeException(e);
         }
 
-        for (int i = 0; i < 135; i++) {
-            items.add(new ItemStack(Material.RED_WOOL));
+        // Create Items
+        String[][] history = databaseManager.getBanHistory(player.getUniqueId());
+
+        for (String[] ban : history) {
+            ItemStack is = new ItemStack(Material.RED_WOOL, 1);
+            ItemMeta isMeta = is.getItemMeta();
+            List lore = new ArrayList<>();
+            lore.add(ChatColor.translateAlternateColorCodes('&', "&7Reason: &f" + ban[1]));
+            lore.add(ChatColor.translateAlternateColorCodes('&', "&7Banned By: &f" + ban[2]));
+            lore.add(ChatColor.translateAlternateColorCodes('&', "&7Banned At: &f" + ban[3]));
+            lore.add(ChatColor.translateAlternateColorCodes('&', "&7Ban Expires at: &f" + ban[4]));
+            System.out.println(ban[0]);
+
+            if (ban[0].equalsIgnoreCase("UNBANNED")) {
+                lore.add(ChatColor.translateAlternateColorCodes('&', "&7Note: This ban was lifted prematurely by admins"));
+                is.setType(Material.GREEN_WOOL);
+            }
+
+            isMeta.setDisplayName(ChatColor.GOLD + "Ban ID " + ChatColor.RED + ban[5]);
+            isMeta.setLore(lore);
+            is.setItemMeta(isMeta);
+
+            items.add(is);
         }
+
+        // Create Arrows
         ItemStack leftArrow;
         ItemMeta leftArrowMeta;
         if (PageUtil.isPageValid(items, page -1, 28)) {

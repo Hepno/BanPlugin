@@ -3,6 +3,8 @@ package dev.hepno.devroomtrialproject.manager;
 import dev.hepno.devroomtrialproject.DevroomTrialProject;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class DatabaseManager {
@@ -180,26 +182,25 @@ public class DatabaseManager {
 
     public String[][] getBanHistory(UUID uuid) {
         try {
-
-            // for loop to get all bans (all fields) that match the users UUID. To be used for /banhistory command to show all bans that match the users UUID
             PreparedStatement ps = connection.prepareStatement("SELECT * FROM `ban_history` WHERE `uuid` = ?");
             ps.setString(1, uuid.toString());
             ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                String[][] banHistory = new String[rs.getFetchSize()][5];
-                for (int i = 0; i < rs.getFetchSize(); i++) {
-                    String[] ban = new String[5];
-                    ban[0] = rs.getString("notes");
-                    ban[1] = rs.getString("reason");
-                    ban[2] = rs.getString("bannedBy");
-                    ban[3] = rs.getString("bannedAt");
-                    ban[4] = rs.getString("banExpiresAt");
-                    banHistory[i] = ban;
-                }
-                return banHistory;
+            List<String[]> banHistory = new ArrayList<>();
+            while (rs.next()) {
+                String[] ban = new String[6];
+                ban[0] = rs.getString("notes");
+                ban[1] = rs.getString("reason");
+                ban[2] = rs.getString("bannedBy");
+                ban[3] = rs.getString("bannedAt");
+                ban[4] = rs.getString("banExpiresAt");
+                ban[5] = rs.getString("banId");
+                banHistory.add(ban);
             }
-            return null;
-
+            String[][] banHistoryArray = new String[banHistory.size()][5];
+            for (int i = 0; i < banHistory.size(); i++) {
+                banHistoryArray[i] = banHistory.get(i);
+            }
+            return banHistoryArray;
         } catch (SQLException e) {
             e.printStackTrace();
         }

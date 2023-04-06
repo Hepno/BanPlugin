@@ -7,6 +7,9 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 
 public class UnbanCommand extends Command {
@@ -47,6 +50,18 @@ public class UnbanCommand extends Command {
         if (databaseManager.isBanned(target.getUniqueId())) {
             databaseManager.deleteBan(target.getUniqueId());
             sender.sendMessage("Player " + args[0] + " has been unbanned!");
+
+            // Unban User
+            try {
+                Connection connection = databaseManager.getConnection();
+                PreparedStatement ps2 = null;
+                ps2 = connection.prepareStatement("UPDATE `ban_history` SET `notes` = 'UNBANNED' WHERE `uuid` = ?");
+                ps2.setString(1, target.getUniqueId().toString());
+                ps2.executeUpdate();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
         } else {
             sender.sendMessage("Player " + args[0] + " is not banned. Did you mean to use /ban?");
         }
