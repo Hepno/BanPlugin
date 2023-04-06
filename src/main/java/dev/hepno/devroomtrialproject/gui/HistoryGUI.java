@@ -57,9 +57,29 @@ public class HistoryGUI {
         rightArrow.setItemMeta(rightArrowMeta);
         gui.setItem(50, rightArrow);
 
+        // Create frame for decorations
+        for (int i = 0; i < 9; i++) {
+            gui.setItem(i, new ItemStack(Material.BLACK_STAINED_GLASS_PANE));
+        }
+        for (int i = 0; i < 4; i++) {
+            int slot = 9 + (i * 9);
+            gui.setItem(slot, new ItemStack(Material.BLACK_STAINED_GLASS_PANE));
+        }
+        for (int i = 0; i < 4; i++) {
+            int slot = 17 + (i * 9);
+            gui.setItem(slot, new ItemStack(Material.BLACK_STAINED_GLASS_PANE));
+        }
+        for (int i = 45; i < 54; i++) {
+            if (i != 48 && i != 50) {
+                gui.setItem(i, new ItemStack(Material.BLACK_STAINED_GLASS_PANE));
+            }
+        }
+
+        // Add all the items
         for (ItemStack is : PageUtil.getPageItems(items, page, 28)) {
             gui.setItem(gui.firstEmpty(), is);
         }
+
         player.openInventory(gui);
 
 
