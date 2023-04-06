@@ -19,7 +19,6 @@ public class GUIListener implements Listener {
             str = str.replaceAll("[^0-9]+", "");
 
             int page = Integer.parseInt(str);
-            System.out.println(page);
             if (event.getCurrentItem().getType().equals(Material.LIME_STAINED_GLASS_PANE)) {
                 if (event.getCurrentItem().getItemMeta().getDisplayName().contains("Previous Page")) {
                     new HistoryGUI((Player) event.getWhoClicked(), page - 1);
