@@ -15,8 +15,8 @@ import java.util.List;
 
 public class HistoryGUI {
 
-    public HistoryGUI(Player player, int page, DevroomTrialProject plugin) {
-        Inventory gui = Bukkit.createInventory(null, 54, "Ban History of " + player.getName() + " - Page " + page);
+    public HistoryGUI(Player player, Player target, int page, DevroomTrialProject plugin) {
+        Inventory gui = Bukkit.createInventory(null, 54, "Ban History of " + target.getName() + " - Page " + page);
         DatabaseManager databaseManager = new DatabaseManager();
         List<ItemStack> items = new ArrayList<>();
 
@@ -28,7 +28,7 @@ public class HistoryGUI {
         }
 
         // Create Items
-        String[][] history = databaseManager.getBanHistory(player.getUniqueId());
+        String[][] history = databaseManager.getBanHistory(target.getUniqueId());
 
         for (String[] ban : history) {
             ItemStack is = new ItemStack(Material.RED_WOOL, 1);

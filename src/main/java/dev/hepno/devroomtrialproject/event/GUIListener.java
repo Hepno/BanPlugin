@@ -2,6 +2,7 @@ package dev.hepno.devroomtrialproject.event;
 
 import dev.hepno.devroomtrialproject.DevroomTrialProject;
 import dev.hepno.devroomtrialproject.gui.HistoryGUI;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -25,13 +26,19 @@ public class GUIListener implements Listener {
             String str = event.getView().getTitle();
             str = str.replaceAll("[^0-9]+", "");
 
+            // Get target
+            String targetString = event.getView().getTitle();
+            targetString.replaceAll("Ban History of ", "");
+            targetString.split("-");
+            Player target = Bukkit.getPlayer(targetString);
+
             int page = Integer.parseInt(str);
             if (event.getCurrentItem().getType().equals(Material.LIME_STAINED_GLASS_PANE)) {
                 if (event.getCurrentItem().getItemMeta().getDisplayName().contains("Previous Page")) {
-                    new HistoryGUI((Player) event.getWhoClicked(), page - 1, plugin);
+                    new HistoryGUI((Player) event.getWhoClicked(), target, page - 1, plugin);
                 }
                 if (event.getCurrentItem().getItemMeta().getDisplayName().contains("Next Page")) {
-                    new HistoryGUI((Player) event.getWhoClicked(), page + 1, plugin);
+                    new HistoryGUI((Player) event.getWhoClicked(), target, page + 1, plugin);
                 }
             }
             event.setCancelled(true);

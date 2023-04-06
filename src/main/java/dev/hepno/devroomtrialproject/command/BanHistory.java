@@ -48,9 +48,9 @@ public class BanHistory extends Command {
                 return;
             }
 
-            OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
+            Player target = Bukkit.getPlayer(args[0]);
             // Open ban GUI here
-            new HistoryGUI((Player) sender, 1, plugin);
+            new HistoryGUI((Player) sender, target, 1, plugin);
 
         }
 
