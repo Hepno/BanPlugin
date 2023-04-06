@@ -38,7 +38,6 @@ public class HistoryGUI {
             lore.add(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("gui.bannedBy") + ban[2]));
             lore.add(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("gui.bannedAt") + ban[3]));
             lore.add(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("gui.banExpiresAt") + ban[4]));
-            System.out.println(ban[0]);
 
             if (ban[0].equalsIgnoreCase("UNBANNED")) {
                 lore.add(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("gui.prematurelyBannedMessage")));

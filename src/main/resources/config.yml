@@ -6,8 +6,8 @@ mysql:
   password: "password"
 gui:
   # Text to be displayed before the variable. No placeholders necessary
-  reason: "&7Reason: "
-  bannedBy: "&7Banned by:"
-  bannedAt: "&7Banned at:"
-  banExpiresAt: "&7Ban Expires At: "
-  prematurelyBannedMessage: "&7Note: This ban was prematurely lifted by the admins"
+  reason: "&7Reason: &f"
+  bannedBy: "&7Banned by: &f"
+  bannedAt: "&7Banned at: &f"
+  banExpiresAt: "&7Ban Expires At: &f"
+  prematurelyBannedMessage: "&7Note: &fThis ban was prematurely lifted by the admins"
