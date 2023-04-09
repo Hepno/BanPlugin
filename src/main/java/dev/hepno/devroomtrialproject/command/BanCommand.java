@@ -52,48 +52,79 @@ public class BanCommand extends Command {
             return;
         }
 
+        int[] duration;
+        Player targetPlayer;
+        if (Bukkit.getPlayer(args[0]) != null) {
+            targetPlayer = Bukkit.getPlayer(args[0]);
+        } else {
+            player.sendMessage(plugin.getConfig().getString("errorMessages.invalidPlayer"));
+            return;
+        }
+
         if (args.length == 1) {
-            player.sendMessage(plugin.getConfig().getString("errorMessages.noDurationGiven"));
+            // Permanent, no reason ban
+            targetPlayer.kickPlayer("You have been permanently banned from the server");
+            Timestamp bannedAt = new Timestamp(System.currentTimeMillis());
+            Timestamp banExpiresAt = new Timestamp(System.currentTimeMillis() + (2629746000L * 10000)); // it's a bit messy, but it works
+            databaseManager.createBan(targetPlayer.getUniqueId(), true, "None", player.getUniqueId(), bannedAt, banExpiresAt, "PERMANENT");
             return;
         }
 
         if (args.length == 2) {
-            // Check if args[1] is a valid duration, if not, assume it's the reason
             try {
-                convert(args[1]);
+                // Arg 1 is a valid duration, so args[1] is the duration, and there is no reason.
+                duration = convert(args[1]);
+                targetPlayer.kickPlayer("You have been banned from the server for " + args[1]);
+                Timestamp bannedAt = new Timestamp(System.currentTimeMillis());
+                Timestamp banExpiresAt = new Timestamp(System.currentTimeMillis() +
+                        duration[0] * 2629746000L + duration[1] * 604800000L + duration[2] *
+                        86400000L + duration[3] * 3600000L + duration[4] * 60000L + duration[5] * 1000L + duration[6]
+                );
+                databaseManager.createBan(targetPlayer.getUniqueId(), true, "None", player.getUniqueId(), bannedAt, banExpiresAt, "NONE");
             } catch (IllegalArgumentException e) {
-                // We assume args[1] is the reason, so we can ban the player permanently
-                Player targetPlayer = Bukkit.getPlayer(args[0]);
+                // Arg 1 is not a valid duration, so we assume args[1] is the reason, and that this is a permanent ban.
+                targetPlayer.kickPlayer("You have been permanently banned from the server for " + args[1]);
                 Timestamp bannedAt = new Timestamp(System.currentTimeMillis());
                 Timestamp banExpiresAt = new Timestamp(System.currentTimeMillis() + (2629746000L * 10000)); // it's a bit messy, but it works
                 databaseManager.createBan(targetPlayer.getUniqueId(), true, args[1], player.getUniqueId(), bannedAt, banExpiresAt, "PERMANENT");
-                targetPlayer.kickPlayer("You have been permanently banned from the server for " + args[1]);
                 return;
             }
-            player.sendMessage("You must specify a reason for the ban!");
-            return;
         }
 
-        Player targetPlayer = Bukkit.getPlayer(args[0]);
-        int[] duration;
-        try {
-            duration = convert(args[1]);
-        } catch (IllegalArgumentException e) {
-            player.sendMessage(ChatColor.RED + "Invalid time format!");
-            return;
-        }
+        if (args.length > 2) {
+            try {
+                // Arg 1 is a valid duration. This is a temp ban with a reason of more than 1 word.
 
-        // Ban player
-        if (targetPlayer != null) {
-            targetPlayer.kickPlayer("You have been banned from the server for " + args[1] + " for " + args[2]);
-            Timestamp bannedAt = new Timestamp(System.currentTimeMillis());
-            Timestamp banExpiresAt = new Timestamp(System.currentTimeMillis() +
-                    duration[0] * 2629746000L + duration[1] * 604800000L + duration[2] *
-                    86400000L + duration[3] * 3600000L + duration[4] * 60000L + duration[5] * 1000L + duration[6]
-            );
-            databaseManager.createBan(targetPlayer.getUniqueId(), true, args[2], player.getUniqueId(), bannedAt, banExpiresAt, "NONE");
-        }
+                // Create the reason
+                String reason = "";
+                for (int i = 2; i < args.length; i++) {
+                    reason += args[i];
+                }
 
+                duration = convert(args[1]);
+                targetPlayer.kickPlayer("You have been banned from the server for " + reason);
+                Timestamp bannedAt = new Timestamp(System.currentTimeMillis());
+                Timestamp banExpiresAt = new Timestamp(System.currentTimeMillis() +
+                        duration[0] * 2629746000L + duration[1] * 604800000L + duration[2] *
+                        86400000L + duration[3] * 3600000L + duration[4] * 60000L + duration[5] * 1000L + duration[6]
+                );
+                databaseManager.createBan(targetPlayer.getUniqueId(), true, reason, player.getUniqueId(), bannedAt, banExpiresAt, "NONE");
+            } catch (IllegalArgumentException e) {
+                // Arg 1 is not a valid duration. This is a permanent ban with a reason of more than 1 word.
+
+                // Create the reason
+                String reason = "";
+                for (int i = 2; i < args.length; i++) {
+                    reason += args[i];
+                }
+
+                targetPlayer.kickPlayer("You have been permanently banned from the server for " + reason);
+                Timestamp bannedAt = new Timestamp(System.currentTimeMillis());
+                Timestamp banExpiresAt = new Timestamp(System.currentTimeMillis() + (2629746000L * 10000)); // it's a bit messy, but it works
+                databaseManager.createBan(targetPlayer.getUniqueId(), true, reason, player.getUniqueId(), bannedAt, banExpiresAt, "PERMANENT");
+                return;
+            }
+        }
     }
 
     // Converter to convert duration string into six integers

@@ -16,3 +16,4 @@ errorMessages:
   noPlayerSpecified: "You must specify a player to ban!"
   noDurationGiven: "You must specify a duration for the ban!"
   noReasonGiven: "You must specify a reason for the ban!"
+  invalidPlayer: "The player specified does not exist"
