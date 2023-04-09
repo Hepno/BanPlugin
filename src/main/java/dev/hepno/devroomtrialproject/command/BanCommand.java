@@ -114,7 +114,7 @@ public class BanCommand extends Command {
 
                 // Create the reason
                 String reason = "";
-                for (int i = 2; i < args.length; i++) {
+                for (int i = 1; i < args.length; i++) {
                     reason += args[i];
                 }
 
